@@ -1,2 +1,2 @@
-# Battleship-game
-Battleship game on Jack
+# Maze-Nand2Tetris
+Maze game on Jack
