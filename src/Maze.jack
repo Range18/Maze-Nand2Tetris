@@ -95,4 +95,12 @@ class Maze {
         do base.dispose();
         return;
     }
+
+    method TwoDimensionalArray getMap(){
+        return base;
+    }
+
+    method boolean IsValid(int x, int y){
+        return x > -1 | x < 15 | y > -1 | y < 15;
+    }
 }
