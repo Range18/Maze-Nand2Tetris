@@ -1,0 +1,90 @@
+class TwoDimensionalArray {
+    field int capacity, lengthOfArrays;
+    field Array array;
+    field boolean isDisposed;
+
+    constructor TwoDimensionalArray new(int arraysCount, int size) {
+        let capacity = arraysCount * size;
+        let lengthOfArrays = size;
+        let array = Array.new(capacity);
+        let isDisposed = false;
+
+        return this;
+    }
+
+    method void setStringValue(int indexA, int indexB, String value) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+        
+        let array[indexA * lengthOfArrays + indexB] = value;
+        return;
+    }
+
+    method void setIntValue(int indexA, int indexB, int value) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+
+        let array[indexA * lengthOfArrays + indexB] = value;
+        return;
+    }
+
+    method void setBooleanValue(int indexA, int indexB, boolean value) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+
+        let array[indexA * lengthOfArrays + indexB] = value;
+        return;
+    }
+
+    method void setCharValue(int indexA, int indexB, char value) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+
+        let array[indexA * lengthOfArrays + indexB] = value;
+        return;
+    }
+
+    method String getStringValue(int indexA, int indexB) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+        
+        return array[indexA * lengthOfArrays + indexB];
+    }
+
+    method int getIntValue(int indexA, int indexB) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+
+        return array[indexA * lengthOfArrays + indexB];
+    }
+
+    method boolean getBooleanValue(int indexA, int indexB) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+
+        return array[indexA * lengthOfArrays + indexB];
+    }
+
+    method char getCharValue(int indexA, int indexB) {
+        if (isDisposed) {
+            do Sys.error(5);
+        }
+        
+        return array[indexA * lengthOfArrays + indexB];
+    }
+
+    method void dispose() {
+        do array.dispose();
+        do Memory.deAlloc(this);
+        let isDisposed = true;
+
+        return;
+    }
+}
