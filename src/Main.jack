@@ -2,9 +2,18 @@ class Main {
     function void main() 
     {
         var Maze maze;
+        var BFS bfs;
+        
         let maze = Maze.new();
         do maze.Fill();
         do maze.Print();
+        
+        let bfs = BFS.new(maze);
+        do bfs.run();
+        
+        do maze.dispose();
+        do bfs.dispose();
+        
         return;
     }
 }
