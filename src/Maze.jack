@@ -82,7 +82,7 @@ class Maze {
         while (i < 15) {
             let j = 0;
             while (j < 15) {
-                do Output.printChar(base.getCharValue(i, j));
+                do Output.printString(base.getStringValue(i, j));
                 let j = j + 1;
             }
             do Output.println();
