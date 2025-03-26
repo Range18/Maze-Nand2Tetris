@@ -1,0 +1,98 @@
+class Maze {
+    field TwoDimensionalArray base;
+    static char Exit, Start, Wall, Empty;
+    constructor Maze new() {
+        let Exit = "E";
+        let Start = "S";
+        let Wall = "W";
+        let Empty = " ";
+        let base = TwoDimensionalArray.new(15,15);
+        return this;
+    }
+
+    method void Fill() {
+        var int i, j;
+        let i = 0;                  //заполняем весь лабиринт пустыми клетками
+        while (i < 15) {
+            let j = 0;
+            while (j < 15) {
+                do base.setCharValue(i, j, Empty);
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        let i = 0; //делаем стены по периметру
+        while (i < 15) {
+            // верхняя и нижняя стены
+            do base.setCharValue(0, i, Wall);
+            do base.setCharValue(14, i, Wall);
+            
+            // левая и правая стены
+            do base.setCharValue(i, 0, Wall);
+            do base.setCharValue(i, 14, Wall);
+            
+            let i = i + 1;
+        }
+        // старт
+        do base.setCharValue(1, 0, Start);
+        //выход
+        do base.setCharValue(13, 14, Exit);
+        
+        //внутренние стены
+        do base.setCharValue(1, 2, Wall); do base.setCharValue(2, 2, Wall); do base.setCharValue(3, 2, Wall); 
+        do base.setCharValue(5, 2, Wall); do base.setCharValue(7, 2, Wall); do base.setCharValue(9, 2, Wall);
+        do base.setCharValue(10, 2, Wall); do base.setCharValue(12, 2, Wall); do base.setCharValue(13, 2, Wall);
+
+        do base.setCharValue(3, 3, Wall); do base.setCharValue(4, 3, Wall); do base.setCharValue(5, 3, Wall);
+        do base.setCharValue(7, 3, Wall); do base.setCharValue(9, 3, Wall); 
+
+        do base.setCharValue(7, 4, Wall);  do base.setCharValue(12, 4, Wall);
+
+        do base.setCharValue(3, 5, Wall); do base.setCharValue(4, 5, Wall); do base.setCharValue(7, 5, Wall); 
+        do base.setCharValue(8, 5, Wall); do base.setCharValue(9, 5, Wall); do base.setCharValue(10, 5, Wall); 
+        do base.setCharValue(11, 5, Wall); do base.setCharValue(12, 5, Wall);
+
+        do base.setCharValue(3, 6, Wall); do base.setCharValue(4, 6, Wall); do base.setCharValue(5, 6, Wall); 
+        do base.setCharValue(6, 6, Wall); do base.setCharValue(7, 6, Wall); do base.setCharValue(11, 6, Wall); 
+        do base.setCharValue(12, 6, Wall);
+
+        do base.setCharValue(3, 7, Wall); do base.setCharValue(7, 7, Wall); do base.setCharValue(8, 7, Wall); 
+        do base.setCharValue(11, 7, Wall); do base.setCharValue(12, 7, Wall); 
+
+        do base.setCharValue(2, 8, Wall); do base.setCharValue(3, 8, Wall); do base.setCharValue(4, 8, Wall); 
+        do base.setCharValue(5, 8, Wall); do base.setCharValue(8, 8, Wall); do base.setCharValue(9, 8, Wall); 
+        do base.setCharValue(11, 8, Wall); do base.setCharValue(12, 8, Wall);
+
+        do base.setCharValue(2, 9, Wall); do base.setCharValue(5, 9, Wall); do base.setCharValue(11, 9, Wall); 
+
+        do base.setCharValue(2, 10, Wall); do base.setCharValue(5, 10, Wall); do base.setCharValue(9, 10, Wall); 
+
+        do base.setCharValue(2, 11, Wall); do base.setCharValue(5, 11, Wall); do base.setCharValue(6, 11, Wall); 
+        do base.setCharValue(7, 11, Wall); do base.setCharValue(9, 11, Wall); do base.setCharValue(10, 11, Wall); 
+        do base.setCharValue(11, 11, Wall); do base.setCharValue(12, 11, Wall); do base.setCharValue(13, 11, Wall);
+
+        do base.setCharValue(9, 12, Wall); do base.setCharValue(11, 13, Wall); do base.setCharValue(12, 13, Wall);
+
+        return;
+    }
+
+    method void Print() {
+        var int i, j;
+        let i = 0;
+        while (i < 15) {
+            let j = 0;
+            while (j < 15) {
+                do Output.printChar(base.getCharValue(i, j));
+                let j = j + 1;
+            }
+            do Output.println();
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method void dispose() {
+        do base.dispose();
+        return;
+    }
+}
