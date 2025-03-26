@@ -1,0 +1,70 @@
+class queue 
+{
+    field Array array;
+    field int head;
+    field int tail;
+    field int capacity;
+    field int size;
+
+    constructor queue new(int maxSize)
+    {
+        let array = Array.new(maxSize);
+        let capacity = maxSize;
+        let size = 0;
+        let head = 0;
+        let tail = -1;
+        return this;
+    }
+    method void dispose() 
+    {
+        do array.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void enqueue(int value) 
+    {
+        if (isFull())
+        {
+            do Sys.error(1);
+        }
+        let tail = tail + 1;
+        if (Math.multiply(Math.divide(tail, capacity), capacity) = tail) 
+        {
+            let tail = 0; 
+        }
+        //let tail = (tail + 1) % capacity;
+        let array[tail] = value;
+        let size = size + 1;
+        return;
+    }
+
+    method int dequeue() 
+    {
+        var int value;
+        if (isEmpty())
+        {
+            do Sys.error(2);
+        }
+        let value = array[head];
+        let head = head + 1;
+        if (Math.multiply(Math.divide(head, capacity), capacity) = head) 
+        {
+            let head = 0;  
+        }
+        let size = size - 1;
+        return value;
+    }
+    method boolean isEmpty() 
+    {
+        return size = 0;
+    }
+    method boolean isFull() 
+    {
+        return size = capacity;
+    }
+    method int getSize() 
+    {
+        return size;
+    }
+}
