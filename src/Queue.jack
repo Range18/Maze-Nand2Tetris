@@ -1,4 +1,4 @@
-class queue 
+class Queue 
 {
     field Array array;
     field int head;
@@ -6,7 +6,7 @@ class queue
     field int capacity;
     field int size;
 
-    constructor queue new(int maxSize)
+    constructor Queue new(int maxSize)
     {
         let array = Array.new(maxSize);
         let capacity = maxSize;
