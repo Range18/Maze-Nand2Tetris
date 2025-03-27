@@ -1,5 +1,4 @@
-class BFS /*проблема: почему-то неправильно рисует, начинает не с самого старта, 
-разрушает стенки(хотя условия не позволяют вроде) также происходит переполнение(?) чего-то и все крашится памагите*/
+class BFS /*проблема: хавает все на своем пути. а также почему-то создается bfs в точке 14,14*/
 {
     field Maze maze;
     field Queue queue;
@@ -9,8 +8,12 @@ class BFS /*проблема: почему-то неправильно рису�
 
     constructor BFS new(Maze m) 
     {
+        let startX = 0;
+        let startY = 1;
+        let exitX = 14;
+        let exitY = 13;
         let maze = m;
-        let queue = Queue.new(300); //225 макс значений(ну так должно быть), но пусть +дополнительно
+        let queue = Queue.new(300); //225 макс значений, но пусть +дополнительно
         let visited = TwoDimensionalArray.new(15, 15);
         let found = false;
         return this;
@@ -31,28 +34,6 @@ class BFS /*проблема: почему-то неправильно рису�
             }
             let i = i + 1;
         }
-
-        let map = maze.getMap(); //инициализация старта и выхода
-        let i = 0;
-        while (i < 15) 
-        {
-            let j = 0;
-            while (j < 15) 
-            {
-                if (map.getCharValue(i, j) = "S") 
-                {
-                    let startX = i;
-                    let startY = j;
-                }
-                if (map.getCharValue(i, j) = "E") 
-                {
-                    let exitX = i;
-                    let exitY = j;
-                }
-                let j = j + 1;
-            }
-            let i = i + 1;
-        }
         return;
     }
     
@@ -61,47 +42,46 @@ class BFS /*проблема: почему-то неправильно рису�
         var TwoDimensionalArray map;
         var int x, y;
         do initialize();
-        do queue.enqueue(startX);
         do queue.enqueue(startY);
+        do queue.enqueue(startX);
         let map = maze.getMap();
         while (~(queue.isEmpty()))
         {
-            let x = queue.dequeue();
             let y = queue.dequeue();
+            let x = queue.dequeue();
             
-            if (maze.IsValid(x, y)) 
+            if (maze.IsValid(y, x)) 
             {
-                if (~(map.getCharValue(x, y) = "W") | (visited.getIntValue(x, y) = 1)) 
+                if ((~(map.getCharValue(y, x) = "W")) & (visited.getIntValue(y, x) = 0)) 
                 {
-                    do visited.setIntValue(x, y, 1);
-                    do map.setCharValue(x, y, "."); //помечаем
+                    do visited.setIntValue(y, x, 1);
+                    do map.setCharValue(y, x, "."); //помечаем
 
                     do Output.moveCursor(0, 0); //чтоб новая карта рядом со старой не рисовалась, а все на одном месте.
                     do maze.Print(); //обновляем maze
-                    do Sys.wait(100); //задержка для анимации
+                    do Sys.wait(10); //задержка для анимации
                     
                     // проверка выхода
                     if ((x = exitX) & (y = exitY)) {
                         let found = true;
                         do Output.printString("Exit found!");
                     }
-                    //добавляем соседей в очередь(лучше сразу проверить на условия, 
-                    //а то очередь переполняется как я поняла(не уверена))
-                    if ((map.getCharValue(x - 1, y) = " " | map.getCharValue(x - 1, y) = "E") 
-                    & visited.getIntValue(x - 1, y) = 0) {
-                        do queue.enqueue(x - 1); do queue.enqueue(y);  }
+                    //добавляем соседей в очередь
+                    if ((map.getCharValue(y - 1, x) = " " | map.getCharValue(y - 1, x) = "E") 
+                    & visited.getIntValue(y - 1, x) = 0 & maze.IsValid(y - 1, x)) {
+                        do queue.enqueue(y - 1); do queue.enqueue(x);  }
 
-                    if ((map.getCharValue(x + 1, y) = " " | map.getCharValue(x + 1, y) = "E") 
-                    & visited.getIntValue(x + 1, y) = 0) {
-                        do queue.enqueue(x + 1); do queue.enqueue(y);  }
+                    if ((map.getCharValue(y + 1, x) = " " | map.getCharValue(y + 1, x) = "E") 
+                    & visited.getIntValue(y + 1, x) = 0 & maze.IsValid(y + 1, x)) {
+                        do queue.enqueue(y + 1); do queue.enqueue(x);  }
 
-                    if ((map.getCharValue(x, y - 1) = " " | map.getCharValue(x, y - 1) = "E") 
-                    & visited.getIntValue(x, y - 1) = 0) {
-                        do queue.enqueue(x); do queue.enqueue(y - 1);  }
+                    if ((map.getCharValue(y, x - 1) = " " | map.getCharValue(y, x - 1) = "E") 
+                    & visited.getIntValue(y, x - 1) = 0 & maze.IsValid(y, x - 1)) {
+                        do queue.enqueue(y); do queue.enqueue(x - 1);  }
 
-                    if ((map.getCharValue(x, y + 1) = " " | map.getCharValue(x, y + 1) = "E") 
-                    & visited.getIntValue(x, y + 1) = 0) {
-                        do queue.enqueue(x); do queue.enqueue(y + 1);  }
+                    if ((map.getCharValue(y, x + 1) = " " | map.getCharValue(y, x + 1) = "E") 
+                    & visited.getIntValue(y, x + 1) = 0 & maze.IsValid(y, x + 1)) {
+                        do queue.enqueue(y); do queue.enqueue(x + 1);  }
                 }
             }
         }
