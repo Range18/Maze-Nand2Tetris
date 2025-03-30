@@ -3,6 +3,8 @@ class BFS /*проблема: хавает все на своем пути. а �
     field Maze maze;
     field Queue queue;
     field TwoDimensionalArray visited;
+    field TwoDimensionalArray parentX; // x-координата родителя
+    field TwoDimensionalArray parentY; // y-координата родителя
     field int startX, startY, exitX, exitY;
     field boolean found;
     field char Empty, Exit, Start, Wall;
@@ -16,6 +18,8 @@ class BFS /*проблема: хавает все на своем пути. а �
         let maze = m;
         let queue = Queue.new(300); //225 макс значений, но пусть +дополнительно
         let visited = TwoDimensionalArray.new(15, 15);
+        let parentX = TwoDimensionalArray.new(15, 15);
+        let parentY = TwoDimensionalArray.new(15, 15);
         let found = false;
         let Empty = " ";    // ASCII 32
         let Exit = "E";     // ASCII 69
@@ -35,6 +39,8 @@ class BFS /*проблема: хавает все на своем пути. а �
             while (j < 15) 
             {
                 do visited.setIntValue(i, j, 0); // 0 = не посещено
+                do parentX.setIntValue(i, j, -1); // -1 = нет родителя
+                do parentY.setIntValue(i, j, -1);
                 let j = j + 1;
             }
             let i = i + 1;
@@ -79,6 +85,7 @@ class BFS /*проблема: хавает все на своем пути. а �
                         
                         if ((x = exitX) & (y = exitY)) {
                             let found = true;
+                            do reconstructPath(); // Восстанавливаем путь
                             do Output.printString("Exit found!");
                         }
 
@@ -92,6 +99,8 @@ class BFS /*проблема: хавает все на своем пути. а �
                             // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y - 1, x) = 0) {
+                                    do parentX.setIntValue(y - 1, x, x); // Сохраняем родителя
+                                    do parentY.setIntValue(y - 1, x, y);
                                     do queue.enqueue(y - 1);
                                     do queue.enqueue(x);
                                 }
@@ -107,6 +116,8 @@ class BFS /*проблема: хавает все на своем пути. а �
                             // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y + 1, x) = 0) {
+                                    do parentX.setIntValue(y + 1, x, x); // Сохраняем родителя
+                                    do parentY.setIntValue(y + 1, x, y);
                                     do queue.enqueue(y + 1);
                                     do queue.enqueue(x);
                                 }
@@ -122,6 +133,8 @@ class BFS /*проблема: хавает все на своем пути. а �
                             // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y, x - 1) = 0) {
+                                    do parentX.setIntValue(y, x - 1, x); // Сохраняем родителя
+                                    do parentY.setIntValue(y, x - 1, y);
                                     do queue.enqueue(y);
                                     do queue.enqueue(x - 1);
                                 }
@@ -137,6 +150,8 @@ class BFS /*проблема: хавает все на своем пути. а �
                             // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y, x + 1) = 0) {
+                                    do parentX.setIntValue(y, x + 1, x); // Сохраняем родителя
+                                    do parentY.setIntValue(y, x + 1, y);
                                     do queue.enqueue(y);
                                     do queue.enqueue(x + 1);
                                 }
@@ -157,6 +172,41 @@ class BFS /*проблема: хавает все на своем пути. а �
     {
         do queue.dispose();
         do visited.dispose();
+        return;
+    }
+
+    method void reconstructPath() {
+        var TwoDimensionalArray map;
+        var String star;
+        var int currentX, currentY, prevX, prevY;
+        
+        let map = maze.getMap(); // Получаем карту в отдельную переменную
+        let star = String.new(1);
+        do star.appendChar(42); // Создаем строку "*"
+        
+        let currentX = exitX;
+        let currentY = exitY;
+        
+        while (~((currentX = startX) & (currentY = startY))) {
+            // Используем переменную map вместо цепочки вызовов
+            do map.setStringValue(currentY, currentX, star);
+            
+            // Анимация
+            do Output.moveCursor(0, 0);
+            do maze.Print();
+            do Sys.wait(50);
+            
+            // Получаем родителя
+            let prevX = parentX.getIntValue(currentY, currentX);
+            let prevY = parentY.getIntValue(currentY, currentX);
+            
+            // Переходим к предыдущей клетке
+            let currentX = prevX;
+            let currentY = prevY;
+        }
+        
+        // Восстанавливаем символ старта
+        do map.setStringValue(startY, startX, "S");
         return;
     }
 }
