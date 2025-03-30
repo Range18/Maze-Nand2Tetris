@@ -8,8 +8,9 @@ class Main {
         let maze = Maze.new();
         do maze.Fill();
         let drawer = Drawer.new(maze);
-        do SideMenu.draw(0);
-        do drawer.draw();
+        do Drawer.drawSideMenu(0);
+        do Drawer.drawHelper();
+        do drawer.drawMaze();
         let bfs = BFS.new(maze);
         do bfs.run();
 
