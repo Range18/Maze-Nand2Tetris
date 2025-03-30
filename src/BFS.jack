@@ -5,6 +5,7 @@ class BFS /*проблема: хавает все на своем пути. а �
     field TwoDimensionalArray visited;
     field int startX, startY, exitX, exitY;
     field boolean found;
+    field char Empty, Exit, Start, Wall;
 
     constructor BFS new(Maze m) 
     {
@@ -16,6 +17,10 @@ class BFS /*проблема: хавает все на своем пути. а �
         let queue = Queue.new(300); //225 макс значений, но пусть +дополнительно
         let visited = TwoDimensionalArray.new(15, 15);
         let found = false;
+        let Empty = " ";    // ASCII 32
+        let Exit = "E";     // ASCII 69
+        let Start = "S";    // ASCII 83
+        let Wall = "W";     // ASCII 87
         return this;
     }
     
@@ -41,6 +46,7 @@ class BFS /*проблема: хавает все на своем пути. а �
     {
         var TwoDimensionalArray map;
         var int x, y;
+        var String temp;  // Меняем обратно на String
         do initialize();
         do queue.enqueue(startY);
         do queue.enqueue(startX);
@@ -50,38 +56,93 @@ class BFS /*проблема: хавает все на своем пути. а �
             let y = queue.dequeue();
             let x = queue.dequeue();
             
-            if (maze.IsValid(y, x)) 
-            {
-                if ((~(map.getCharValue(y, x) = "W")) & (visited.getIntValue(y, x) = 0)) 
-                {
-                    do visited.setIntValue(y, x, 1);
-                    do map.setCharValue(y, x, "."); //помечаем
+            if (maze.IsValid(y, x)) {
+                let temp = map.getStringValue(y, x);
+                
+                // DEBUG: Вывод текущей позиции и значения
+                // do Output.printString("Checking position: ");
+                // do Output.printInt(y);
+                // do Output.printString(",");
+                // do Output.printInt(x);
+                // do Output.printString(" Value: ");
+                // do Output.printString(temp);
+                // do Output.println();
 
-                    do Output.moveCursor(0, 0); //чтоб новая карта рядом со старой не рисовалась, а все на одном месте.
-                    do maze.Print(); //обновляем maze
-                    do Sys.wait(10); //задержка для анимации
-                    
-                    // проверка выхода
-                    if ((x = exitX) & (y = exitY)) {
-                        let found = true;
-                        do Output.printString("Exit found!");
+                if (visited.getIntValue(y, x) = 0) {
+                    // Проверяем тип клетки: пробел (32), выход (69) или старт (83)
+                    if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69) | (temp.charAt(0) = 83)) {
+                        do visited.setIntValue(y, x, 1);
+                        do map.setStringValue(y, x, ".");
+                        do Output.moveCursor(0, 0);
+                        do maze.Print();
+                        do Sys.wait(10);
+                        
+                        if ((x = exitX) & (y = exitY)) {
+                            let found = true;
+                            do Output.printString("Exit found!");
+                        }
+
+                        // Проверяем соседей
+                        // Вверх
+                        if (maze.IsValid(y - 1, x)) {
+                            let temp = map.getStringValue(y - 1, x);
+                            // DEBUG: Проверка верхней клетки
+                            // do Output.printString("Checking up: ");
+                            // do Output.printString(temp);
+                            // do Output.println();
+                            if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
+                                if (visited.getIntValue(y - 1, x) = 0) {
+                                    do queue.enqueue(y - 1);
+                                    do queue.enqueue(x);
+                                }
+                            }
+                        }
+
+                        // Вниз
+                        if (maze.IsValid(y + 1, x)) {
+                            let temp = map.getStringValue(y + 1, x);
+                            // DEBUG: Проверка нижней клетки
+                            // do Output.printString("Checking down: ");
+                            // do Output.printString(temp);
+                            // do Output.println();
+                            if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
+                                if (visited.getIntValue(y + 1, x) = 0) {
+                                    do queue.enqueue(y + 1);
+                                    do queue.enqueue(x);
+                                }
+                            }
+                        }
+
+                        // Влево
+                        if (maze.IsValid(y, x - 1)) {
+                            let temp = map.getStringValue(y, x - 1);
+                            // DEBUG: Проверка левой клетки
+                            // do Output.printString("Checking left: ");
+                            // do Output.printString(temp);
+                            // do Output.println();
+                            if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
+                                if (visited.getIntValue(y, x - 1) = 0) {
+                                    do queue.enqueue(y);
+                                    do queue.enqueue(x - 1);
+                                }
+                            }
+                        }
+
+                        // Вправо
+                        if (maze.IsValid(y, x + 1)) {
+                            let temp = map.getStringValue(y, x + 1);
+                            // DEBUG: Проверка правой клетки
+                            // do Output.printString("Checking right: ");
+                            // do Output.printString(temp);
+                            // do Output.println();
+                            if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
+                                if (visited.getIntValue(y, x + 1) = 0) {
+                                    do queue.enqueue(y);
+                                    do queue.enqueue(x + 1);
+                                }
+                            }
+                        }
                     }
-                    //добавляем соседей в очередь
-                    if ((map.getCharValue(y - 1, x) = " " | map.getCharValue(y - 1, x) = "E") 
-                    & visited.getIntValue(y - 1, x) = 0 & maze.IsValid(y - 1, x)) {
-                        do queue.enqueue(y - 1); do queue.enqueue(x);  }
-
-                    if ((map.getCharValue(y + 1, x) = " " | map.getCharValue(y + 1, x) = "E") 
-                    & visited.getIntValue(y + 1, x) = 0 & maze.IsValid(y + 1, x)) {
-                        do queue.enqueue(y + 1); do queue.enqueue(x);  }
-
-                    if ((map.getCharValue(y, x - 1) = " " | map.getCharValue(y, x - 1) = "E") 
-                    & visited.getIntValue(y, x - 1) = 0 & maze.IsValid(y, x - 1)) {
-                        do queue.enqueue(y); do queue.enqueue(x - 1);  }
-
-                    if ((map.getCharValue(y, x + 1) = " " | map.getCharValue(y, x + 1) = "E") 
-                    & visited.getIntValue(y, x + 1) = 0 & maze.IsValid(y, x + 1)) {
-                        do queue.enqueue(y); do queue.enqueue(x + 1);  }
                 }
             }
         }
