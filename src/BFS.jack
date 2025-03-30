@@ -158,11 +158,7 @@ class BFS
                         }
                     }
                 }
-            }
-        }
-        if (~found) 
-        {
-            do Output.printString("Exit not found!");
+            } 
         }
         return;
     }
@@ -193,7 +189,7 @@ class BFS
             
             // Анимация
             do Output.moveCursor(0, 0);
-            do drawer.draw();
+            do drawer.drawMaze();
             do Sys.wait(20);
             
             // Получаем родителя
@@ -207,5 +203,9 @@ class BFS
         
         do map.setStringValue(startY, startX, "S");
         return;
+    }
+
+    method boolean isFound() {
+        return found;
     }
 }
