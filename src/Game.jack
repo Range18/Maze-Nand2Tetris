@@ -1,0 +1,46 @@
+class Game {
+    field Maze maze;
+    field int startX, startY;
+    field int size;
+    
+    constructor Game new(Maze m) {
+        let maze = m;  
+        let startX = 135;
+        let startY = 90;
+        let size = 8;  
+        return this;
+    }
+    
+    method void draw() {
+        var TwoDimensionalArray map;
+        var int i, j;
+        var String cell;
+        let map = maze.getMap();
+        
+        let i = 0;
+        while (i < 15) {
+            let j = 0;
+            while (j < 15) {
+                let cell = map.getStringValue(i, j);
+                if (cell.charAt(0) = 87) { 
+                    do Screen.setColor(true);
+                    do Screen.drawRectangle(
+                        (startX + (10 * j)),           // x1 - левый верхний угол
+                        (startY + (10 * i)),           // y1 - левый верхний угол
+                        (startX + (10 * j) + size),       // x2 - правый нижний угол (x1 + 7)
+                        (startY + (10 * i) + size)        // y2 - правый нижний угол (y1 + 7)
+                    );
+                }
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        
+        return;
+    }
+    
+    method void dispose() {
+        do maze.dispose();
+        return;
+    }
+}
