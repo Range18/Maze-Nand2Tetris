@@ -1,4 +1,4 @@
-class BFS /*проблема: хавает все на своем пути. а также почему-то создается bfs в точке 14,14*/
+class BFS 
 {
     field Maze maze;
     field Queue queue;
@@ -79,14 +79,13 @@ class BFS /*проблема: хавает все на своем пути. а �
                     if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69) | (temp.charAt(0) = 83)) {
                         do visited.setIntValue(y, x, 1);
                         do map.setStringValue(y, x, ".");
-                        do Output.moveCursor(0, 0);
-                        do maze.Print();
-                        do Sys.wait(10);
+                        
                         
                         if ((x = exitX) & (y = exitY)) {
                             let found = true;
                             do reconstructPath(); // Восстанавливаем путь
-                            do Output.printString("Exit found!");
+                            //do Output.moveCursor(0,0);
+                            //do Output.printString("Exit found!");
                         }
 
                         // Проверяем соседей
@@ -176,10 +175,11 @@ class BFS /*проблема: хавает все на своем пути. а �
     }
 
     method void reconstructPath() {
+        var Drawer drawer;
         var TwoDimensionalArray map;
         var String star;
         var int currentX, currentY, prevX, prevY;
-        
+        let drawer = Drawer.new(maze);
         let map = maze.getMap(); // Получаем карту в отдельную переменную
         let star = String.new(1);
         do star.appendChar(42); // Создаем строку "*"
@@ -193,8 +193,8 @@ class BFS /*проблема: хавает все на своем пути. а �
             
             // Анимация
             do Output.moveCursor(0, 0);
-            do maze.Print();
-            do Sys.wait(50);
+            do drawer.draw();
+            do Sys.wait(20);
             
             // Получаем родителя
             let prevX = parentX.getIntValue(currentY, currentX);
@@ -205,7 +205,6 @@ class BFS /*проблема: хавает все на своем пути. а �
             let currentY = prevY;
         }
         
-        // Восстанавливаем символ старта
         do map.setStringValue(startY, startX, "S");
         return;
     }
