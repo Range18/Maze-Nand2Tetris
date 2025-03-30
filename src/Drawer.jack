@@ -1,9 +1,9 @@
-class Game {
+class Drawer {
     field Maze maze;
     field int startX, startY;
     field int size;
     
-    constructor Game new(Maze m) {
+    constructor Drawer new(Maze m) {
         let maze = m;  
         let startX = 135;
         let startY = 90;
@@ -27,9 +27,13 @@ class Game {
                     do Screen.drawRectangle(
                         (startX + (10 * j)),           // x1 - левый верхний угол
                         (startY + (10 * i)),           // y1 - левый верхний угол
-                        (startX + (10 * j) + size),       // x2 - правый нижний угол (x1 + 7)
-                        (startY + (10 * i) + size)        // y2 - правый нижний угол (y1 + 7)
+                        (startX + (10 * j) + size),       // x2 - правый нижний угол
+                        (startY + (10 * i) + size)        // y2 - правый нижний угол
                     );
+                }
+                if (cell.charAt(0) = 42) { 
+                    do Screen.setColor(true);
+                    do Screen.drawCircle(startX + (10 * j) + 4, startY + (10 * i) + 4, 3);
                 }
                 let j = j + 1;
             }
