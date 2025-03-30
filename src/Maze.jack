@@ -1,79 +1,147 @@
 class Maze {
     field TwoDimensionalArray base;
+    field Random random;
     static char Exit, Start, Wall, Empty;
-    constructor Maze new() {
+    
+    constructor Maze new(int seed) {
         let Exit = "E";
         let Start = "S";
         let Wall = "W";
         let Empty = " ";
         let base = TwoDimensionalArray.new(15,15);
+        let random = Random.new(seed + 137);
         return this;
     }
 
     method void Fill() {
-        var int i, j;
-        let i = 0;                  //заполняем весь лабиринт пустыми клетками
-        while (i < 15) {
-            let j = 0;
-            while (j < 15) {
-                do base.setCharValue(i, j, Empty);
-                let j = j + 1;
-            }
-            let i = i + 1;
-        }
-        let i = 0; //делаем стены по периметру
-        while (i < 15) {
-            // верхняя и нижняя стены
-            do base.setCharValue(0, i, Wall);
-            do base.setCharValue(14, i, Wall);
-            
-            // левая и правая стены
-            do base.setCharValue(i, 0, Wall);
-            do base.setCharValue(i, 14, Wall);
-            
-            let i = i + 1;
-        }
-        // старт
-        do base.setCharValue(1, 0, Start);
-        //выход
-        do base.setCharValue(13, 14, Exit);
+        var int i, j, attempts;
+        var boolean isSolvable;
         
-        //внутренние стены
-        do base.setCharValue(1, 2, Wall); do base.setCharValue(2, 2, Wall); do base.setCharValue(3, 2, Wall); 
-        do base.setCharValue(5, 2, Wall); do base.setCharValue(7, 2, Wall); do base.setCharValue(9, 2, Wall);
-        do base.setCharValue(10, 2, Wall); do base.setCharValue(12, 2, Wall); do base.setCharValue(13, 2, Wall);
+        let attempts = 0;
+        let isSolvable = false;
+        
+        while(~isSolvable & (attempts < 100)) {
+            // Заполняем весь лабиринт пустыми клетками
+            let i = 0;
+            while (i < 15) {
+                let j = 0;
+                while (j < 15) {
+                    do base.setCharValue(i, j, Empty);
+                    let j = j + 1;
+                }
+                let i = i + 1;
+            }
 
-        do base.setCharValue(3, 3, Wall); do base.setCharValue(4, 3, Wall); do base.setCharValue(5, 3, Wall);
-        do base.setCharValue(7, 3, Wall); do base.setCharValue(9, 3, Wall); 
-
-        do base.setCharValue(7, 4, Wall);  do base.setCharValue(12, 4, Wall);
-
-        do base.setCharValue(3, 5, Wall); do base.setCharValue(4, 5, Wall); do base.setCharValue(7, 5, Wall); 
-        do base.setCharValue(8, 5, Wall); do base.setCharValue(9, 5, Wall); do base.setCharValue(10, 5, Wall); 
-        do base.setCharValue(11, 5, Wall); do base.setCharValue(12, 5, Wall);
-
-        do base.setCharValue(3, 6, Wall); do base.setCharValue(4, 6, Wall); do base.setCharValue(5, 6, Wall); 
-        do base.setCharValue(6, 6, Wall); do base.setCharValue(7, 6, Wall); do base.setCharValue(11, 6, Wall); 
-        do base.setCharValue(12, 6, Wall);
-
-        do base.setCharValue(3, 7, Wall); do base.setCharValue(7, 7, Wall); do base.setCharValue(8, 7, Wall); 
-        do base.setCharValue(11, 7, Wall); do base.setCharValue(12, 7, Wall); 
-
-        do base.setCharValue(2, 8, Wall); do base.setCharValue(3, 8, Wall); do base.setCharValue(4, 8, Wall); 
-        do base.setCharValue(5, 8, Wall); do base.setCharValue(8, 8, Wall); do base.setCharValue(9, 8, Wall); 
-        do base.setCharValue(11, 8, Wall); do base.setCharValue(12, 8, Wall);
-
-        do base.setCharValue(2, 9, Wall); do base.setCharValue(5, 9, Wall); do base.setCharValue(11, 9, Wall); 
-
-        do base.setCharValue(2, 10, Wall); do base.setCharValue(5, 10, Wall); do base.setCharValue(9, 10, Wall); 
-
-        do base.setCharValue(2, 11, Wall); do base.setCharValue(5, 11, Wall); do base.setCharValue(6, 11, Wall); 
-        do base.setCharValue(7, 11, Wall); do base.setCharValue(9, 11, Wall); do base.setCharValue(10, 11, Wall); 
-        do base.setCharValue(11, 11, Wall); do base.setCharValue(12, 11, Wall); do base.setCharValue(13, 11, Wall);
-
-        do base.setCharValue(9, 12, Wall); do base.setCharValue(11, 13, Wall); do base.setCharValue(12, 13, Wall);
-
+            // Делаем стены по периметру
+            let i = 0;
+            while (i < 15) {
+                do base.setCharValue(0, i, Wall);
+                do base.setCharValue(14, i, Wall);
+                do base.setCharValue(i, 0, Wall);
+                do base.setCharValue(i, 14, Wall);
+                let i = i + 1;
+            }
+            do base.setCharValue(1, 0, Start);
+            do base.setCharValue(13, 14, Exit);
+            // Генерируем внутренние стены
+            do generateMaze(1, 1, 13, 13);
+            
+            // Делаем проходы к старту и выходу
+            do base.setCharValue(1, 1, Empty);
+            do base.setCharValue(13, 13, Empty);
+            
+            // Проверяем решаемость
+            let isSolvable = checkSolvability();
+            let attempts = attempts + 1;
+        }
+        
+        // Если после 100 попыток не получилось, создаем простой проход
+        if (~isSolvable) {
+            do createSimplePath();
+        }
+        
         return;
+    }
+    
+    method void generateMaze(int startX, int startY, int endX, int endY) {
+        var int width, height, x, y, passage;
+        
+        let width = endX - startX + 1;
+        let height = endY - startY + 1;
+        
+        if ((width < 2) | (height < 2)) { return; }
+        
+        if (width > height) {
+            // Вертикальная стена
+            let x = startX + (width / 2);
+            
+            // Создаем стену
+            let y = startY;
+            while (y < (endY + 1)) {
+                do base.setCharValue(y, x, Wall);
+                let y = y + 1;
+            }
+            
+            // Создаем проход
+            let passage = startY + random.next(height);
+            do base.setCharValue(passage, x, Empty);
+            
+            // Рекурсивно обрабатываем обе части
+            do generateMaze(startX, startY, x - 1, endY);
+            do generateMaze(x + 1, startY, endX, endY);
+            
+        } else {
+            // Горизонтальная стена
+            let y = startY + (height / 2);
+            
+            // Создаем стену
+            let x = startX;
+            while (x < (endX + 1)) {
+                do base.setCharValue(y, x, Wall);
+                let x = x + 1;
+            }
+            
+            // Создаем проход
+            let passage = startX + random.next(width);
+            do base.setCharValue(y, passage, Empty);
+            
+            // Рекурсивно обрабатываем обе части
+            do generateMaze(startX, startY, endX, y - 1);
+            do generateMaze(startX, y + 1, endX, endY);
+        }
+        
+        return;
+    }
+    
+    method void shuffleArray(Array arr) {
+        var int i, j, temp;
+        let i = 0;
+        while (i < 4) {
+            let j = random.next(4);
+            let temp = arr[i];
+            let arr[i] = arr[j];
+            let arr[j] = temp;
+            let i = i + 1;
+        }
+        return;
+    }
+    
+    method boolean isValidPosition(int x, int y) {
+        if ((x < 0) | (x > 14) | (y < 0) | (y > 14)) {
+            return false;
+        }
+
+        return base.getStringValue(y, x) = Wall;
+    }
+
+    method boolean checkSolvability() {
+        var BFS bfs;
+        var boolean result;
+        let bfs = BFS.new(this);
+        do bfs.run();
+        let result = bfs.isFound();
+        do bfs.dispose();
+        return result;
     }
 
     method void Print() {
@@ -101,6 +169,109 @@ class Maze {
     }
 
     method boolean IsValid(int x, int y){
-        return x > -1 & x < 15 & y > -1 & y < 15;
+        return (x > -1) & (x < 15) & (y > -1) & (y < 15);
+    }
+
+    // Создает сложный путь от старта до выхода с альтернативными маршрутами
+    method void createSimplePath() {
+        var int x, y, i, j;
+        
+        // Сначала заполняем всё стенами
+        let i = 1;
+        while (i < 14) {
+            let j = 1;
+            while (j < 14) {
+                do base.setCharValue(i, j, Wall);
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        
+        // Создаем основной путь
+        let x = 1;
+        let y = 1;
+        do base.setCharValue(y, x, Empty);
+        
+        // Создаем несколько параллельных путей
+        while ((x < 13) | (y < 13)) {
+            // Выбираем направление
+            if (random.next(2) = 0) {
+                if (x < 13) {
+                    let x = x + 1;
+                    do base.setCharValue(y, x, Empty);
+                    // Создаем параллельный путь сверху или снизу
+                    if ((y > 1) & (random.next(2) = 0)) {
+                        do base.setCharValue(y-1, x, Empty);
+                        do base.setCharValue(y-1, x-1, Empty);
+                    } else {
+                        if (y < 13) {
+                            do base.setCharValue(y+1, x, Empty);
+                            do base.setCharValue(y+1, x-1, Empty);
+                        }
+                    }
+                }
+            } else {
+                if (y < 13) {
+                    let y = y + 1;
+                    do base.setCharValue(y, x, Empty);
+                    // Создаем параллельный путь слева или справа
+                    if ((x > 1) & (random.next(2) = 0)) {
+                        do base.setCharValue(y, x-1, Empty);
+                        do base.setCharValue(y-1, x-1, Empty);
+                    } else {
+                        if (x < 13) {
+                            do base.setCharValue(y, x+1, Empty);
+                            do base.setCharValue(y-1, x+1, Empty);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Добавляем случайные соединения между путями
+        let i = 0;
+        while (i < 10) {
+            let x = 1 + random.next(12);
+            let y = 1 + random.next(12);
+            if (canCreateConnection(x, y)) {
+                do createConnection(x, y);
+            }
+            let i = i + 1;
+        }
+        
+        return;
+    }
+    
+    // Проверяет, можно ли создать соединение в данной точке
+    method boolean canCreateConnection(int x, int y) {
+        var int emptyCount, wallCount;
+        let emptyCount = 0;
+        let wallCount = 0;
+        
+        if (base.getStringValue(y-1, x) = Empty) { let emptyCount = emptyCount + 1; }
+        if (base.getStringValue(y+1, x) = Empty) { let emptyCount = emptyCount + 1; }
+        if (base.getStringValue(y, x-1) = Empty) { let emptyCount = emptyCount + 1; }
+        if (base.getStringValue(y, x+1) = Empty) { let emptyCount = emptyCount + 1; }
+        
+        if (base.getStringValue(y-1, x) = Wall) { let wallCount = wallCount + 1; }
+        if (base.getStringValue(y+1, x) = Wall) { let wallCount = wallCount + 1; }
+
+        if (base.getStringValue(y, x-1) = Wall) { let wallCount = wallCount + 1; }
+        if (base.getStringValue(y, x+1) = Wall) { let wallCount = wallCount + 1; }
+        
+        return (emptyCount > 1) & (wallCount > 1);
+    }
+    
+    // Создает соединение между путями
+    method void createConnection(int x, int y) {
+        do base.setCharValue(y, x, Empty);
+        if (random.next(2) = 0) {
+            if (base.getStringValue(y-1, x) = Wall) { do base.setCharValue(y-1, x, Empty); }
+            if (base.getStringValue(y+1, x) = Wall) { do base.setCharValue(y+1, x, Empty); }
+        } else {
+            if (base.getStringValue(y, x-1) = Wall) { do base.setCharValue(y, x-1, Empty); }
+            if (base.getStringValue(y, x+1) = Wall) { do base.setCharValue(y, x+1, Empty); }
+        }
+        return;
     }
 }
