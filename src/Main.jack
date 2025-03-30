@@ -1,18 +1,21 @@
 class Main {
     function void main() 
     {
+        var Drawer drawer;
         var Maze maze;
         var BFS bfs;
         
         let maze = Maze.new();
         do maze.Fill();
-        do maze.Print();
-        
+        let drawer = Drawer.new(maze);
+        do SideMenu.draw(0);
+        do drawer.draw();
         let bfs = BFS.new(maze);
         do bfs.run();
-        
-        do maze.dispose();
+
         do bfs.dispose();
+        do maze.dispose();
+        do drawer.dispose();
         
         return;
     }
