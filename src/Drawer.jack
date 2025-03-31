@@ -22,7 +22,7 @@ class Drawer {
             let j = 0;
             while (j < 15) {
                 let cell = map.getStringValue(i, j);
-                if (cell.charAt(0) = 87) { 
+                if (cell.charAt(0) = 87) {  // 87 - W - стена (Wall)
                     do Screen.setColor(true);
                     do Screen.drawRectangle(
                         (startX + (10 * j)),           // x1 - левый верхний угол
@@ -31,7 +31,11 @@ class Drawer {
                         (startY + (10 * i) + size)        // y2 - правый нижний угол
                     );
                 }
-                if (cell.charAt(0) = 42) { 
+                if (cell.charAt(0) = 42) {  // 42 - * - путь (Path)
+                    do Screen.setColor(true);
+                    do Screen.drawCircle(startX + (10 * j) + 4, startY + (10 * i) + 4, 3);
+                }
+                if (cell.charAt(0) = 80) {  // 80 - P - игрок (Player)
                     do Screen.setColor(true);
                     do Screen.drawCircle(startX + (10 * j) + 4, startY + (10 * i) + 4, 3);
                 }
@@ -39,6 +43,23 @@ class Drawer {
             }
             let i = i + 1;
         }
+        
+        return;
+    }
+
+    method void DrawPlayer(int prevX, int prevY, int x, int y) {
+        // Сначала очищаем старую клетку (рисуем белым прямоугольником)
+        do Screen.setColor(false);
+        do Screen.drawRectangle(
+            (startX + (10 * prevX)),
+            (startY + (10 * prevY)),
+            (startX + (10 * prevX) + size),
+            (startY + (10 * prevY) + size)
+        );
+
+        // И рисуем черный круг в новой позиции
+        do Screen.setColor(true);
+        do Screen.drawCircle(startX + (10 * x) + 4, startY + (10 * y) + 4, 3);
         
         return;
     }

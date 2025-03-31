@@ -78,12 +78,14 @@ class BFS
                     // Проверяем тип клетки: пробел (32), выход (69) или старт (83)
                     if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69) | (temp.charAt(0) = 83)) {
                         do visited.setIntValue(y, x, 1);
-                        do map.setStringValue(y, x, ".");
+
+                        // DEBUG: Вывод работы BFS
+                        // do map.setStringValue(y, x, ".");
                         
                         
                         if ((x = exitX) & (y = exitY)) {
                             let found = true;
-                            do reconstructPath(); // Восстанавливаем путь
+                            //do reconstructPath(); // Восстанавливаем путь
                             //do Output.moveCursor(0,0);
                             //do Output.printString("Exit found!");
                         }

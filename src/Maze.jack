@@ -1,7 +1,7 @@
 class Maze {
     field TwoDimensionalArray base;
     field Random random;
-    static char Exit, Start, Wall, Empty;
+    static String Exit, Start, Wall, Empty;
     
     constructor Maze new(int seed) {
         let Exit = "E";
@@ -26,7 +26,7 @@ class Maze {
             while (i < 15) {
                 let j = 0;
                 while (j < 15) {
-                    do base.setCharValue(i, j, Empty);
+                    do base.setStringValue(i, j, Empty);
                     let j = j + 1;
                 }
                 let i = i + 1;
@@ -35,20 +35,20 @@ class Maze {
             // Делаем стены по периметру
             let i = 0;
             while (i < 15) {
-                do base.setCharValue(0, i, Wall);
-                do base.setCharValue(14, i, Wall);
-                do base.setCharValue(i, 0, Wall);
-                do base.setCharValue(i, 14, Wall);
+                do base.setStringValue(0, i, Wall);
+                do base.setStringValue(14, i, Wall);
+                do base.setStringValue(i, 0, Wall);
+                do base.setStringValue(i, 14, Wall);
                 let i = i + 1;
             }
-            do base.setCharValue(1, 0, Start);
-            do base.setCharValue(13, 14, Exit);
+            do base.setStringValue(1, 0, Start);
+            do base.setStringValue(13, 14, Exit);
             // Генерируем внутренние стены
             do generateMaze(1, 1, 13, 13);
             
             // Делаем проходы к старту и выходу
-            do base.setCharValue(1, 1, Empty);
-            do base.setCharValue(13, 13, Empty);
+            do base.setStringValue(1, 1, Empty);
+            do base.setStringValue(13, 13, Empty);
             
             // Проверяем решаемость
             let isSolvable = checkSolvability();
@@ -78,13 +78,13 @@ class Maze {
             // Создаем стену
             let y = startY;
             while (y < (endY + 1)) {
-                do base.setCharValue(y, x, Wall);
+                do base.setStringValue(y, x, Wall);
                 let y = y + 1;
             }
             
             // Создаем проход
             let passage = startY + random.next(height);
-            do base.setCharValue(passage, x, Empty);
+            do base.setStringValue(passage, x, Empty);
             
             // Рекурсивно обрабатываем обе части
             do generateMaze(startX, startY, x - 1, endY);
@@ -97,13 +97,13 @@ class Maze {
             // Создаем стену
             let x = startX;
             while (x < (endX + 1)) {
-                do base.setCharValue(y, x, Wall);
+                do base.setStringValue(y, x, Wall);
                 let x = x + 1;
             }
             
             // Создаем проход
             let passage = startX + random.next(width);
-            do base.setCharValue(y, passage, Empty);
+            do base.setStringValue(y, passage, Empty);
             
             // Рекурсивно обрабатываем обе части
             do generateMaze(startX, startY, endX, y - 1);
@@ -181,7 +181,7 @@ class Maze {
         while (i < 14) {
             let j = 1;
             while (j < 14) {
-                do base.setCharValue(i, j, Wall);
+                do base.setStringValue(i, j, Wall);
                 let j = j + 1;
             }
             let i = i + 1;
@@ -190,7 +190,7 @@ class Maze {
         // Создаем основной путь
         let x = 1;
         let y = 1;
-        do base.setCharValue(y, x, Empty);
+        do base.setStringValue(y, x, Empty);
         
         // Создаем несколько параллельных путей
         while ((x < 13) | (y < 13)) {
@@ -198,30 +198,30 @@ class Maze {
             if (random.next(2) = 0) {
                 if (x < 13) {
                     let x = x + 1;
-                    do base.setCharValue(y, x, Empty);
+                    do base.setStringValue(y, x, Empty);
                     // Создаем параллельный путь сверху или снизу
                     if ((y > 1) & (random.next(2) = 0)) {
-                        do base.setCharValue(y-1, x, Empty);
-                        do base.setCharValue(y-1, x-1, Empty);
+                        do base.setStringValue(y-1, x, Empty);
+                        do base.setStringValue(y-1, x-1, Empty);
                     } else {
                         if (y < 13) {
-                            do base.setCharValue(y+1, x, Empty);
-                            do base.setCharValue(y+1, x-1, Empty);
+                            do base.setStringValue(y+1, x, Empty);
+                            do base.setStringValue(y+1, x-1, Empty);
                         }
                     }
                 }
             } else {
                 if (y < 13) {
                     let y = y + 1;
-                    do base.setCharValue(y, x, Empty);
+                    do base.setStringValue(y, x, Empty);
                     // Создаем параллельный путь слева или справа
                     if ((x > 1) & (random.next(2) = 0)) {
-                        do base.setCharValue(y, x-1, Empty);
-                        do base.setCharValue(y-1, x-1, Empty);
+                        do base.setStringValue(y, x-1, Empty);
+                        do base.setStringValue(y-1, x-1, Empty);
                     } else {
                         if (x < 13) {
-                            do base.setCharValue(y, x+1, Empty);
-                            do base.setCharValue(y-1, x+1, Empty);
+                            do base.setStringValue(y, x+1, Empty);
+                            do base.setStringValue(y-1, x+1, Empty);
                         }
                     }
                 }
@@ -264,13 +264,13 @@ class Maze {
     
     // Создает соединение между путями
     method void createConnection(int x, int y) {
-        do base.setCharValue(y, x, Empty);
+        do base.setStringValue(y, x, Empty);
         if (random.next(2) = 0) {
-            if (base.getStringValue(y-1, x) = Wall) { do base.setCharValue(y-1, x, Empty); }
-            if (base.getStringValue(y+1, x) = Wall) { do base.setCharValue(y+1, x, Empty); }
+            if (base.getStringValue(y-1, x) = Wall) { do base.setStringValue(y-1, x, Empty); }
+            if (base.getStringValue(y+1, x) = Wall) { do base.setStringValue(y+1, x, Empty); }
         } else {
-            if (base.getStringValue(y, x-1) = Wall) { do base.setCharValue(y, x-1, Empty); }
-            if (base.getStringValue(y, x+1) = Wall) { do base.setCharValue(y, x+1, Empty); }
+            if (base.getStringValue(y, x-1) = Wall) { do base.setStringValue(y, x-1, Empty); }
+            if (base.getStringValue(y, x+1) = Wall) { do base.setStringValue(y, x+1, Empty); }
         }
         return;
     }

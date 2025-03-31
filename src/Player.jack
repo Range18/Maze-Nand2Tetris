@@ -1,0 +1,71 @@
+class Player {
+    field boolean isCompleted;
+    field int x,y;
+    field String icon;
+    field TwoDimensionalArray map;
+
+    constructor Player new(int startX, int startY, TwoDimensionalArray map) {
+        let isCompleted = false;
+        let x = startX;
+        let y = startY;
+        let icon = "P";
+        let map = map;
+        do map.setCharValue(y, x, icon);
+        
+        return this;
+    }
+
+    method boolean isCompleted() {
+        return isCompleted;
+    }
+
+    method Array move(int keyPressed) {
+        var Array moveTuple;
+        var int newX, newY;
+        var String cell;
+        let moveTuple = Array.new(5);
+        let moveTuple[4] = false; // false - не перемещение
+        let moveTuple[0] = x;
+        let moveTuple[1] = y;
+        let newX = x;
+        let newY = y;
+
+        if ((keyPressed = 65) | (keyPressed = 97)) { // a - влево
+            let newX = x - 1;
+        }
+        if ((keyPressed = 68) | (keyPressed = 100)) { // d - вправо
+            let newX = x + 1;
+        }
+        if ((keyPressed = 87) | (keyPressed = 119)) { // w - вверх
+            let newY = y - 1;
+        }
+        if ((keyPressed = 83) | (keyPressed = 115)) { // s - вниз
+            let newY = y + 1;
+        }
+
+        // Сначала проверяем границы карты (0-14 для 15x15 карты)
+        if ((newX < 0) | (newX > 14) | (newY < 0) | (newY > 14)) {
+            // Если выход за границы - остаемся на месте
+            let moveTuple[2] = x;
+            let moveTuple[3] = y;
+        } else {
+            let cell = map.getStringValue(newY, newX);
+            // Проверяем, не стена ли в новой позиции
+                if (~(cell.charAt(0) = 87)) { // 87 = 'W'
+                let moveTuple[4] = true; // true - перемещение
+                let moveTuple[2] = newX;
+                let moveTuple[3] = newY;
+                do map.setStringValue(newY, newX, icon);
+                do map.setStringValue(y, x, " ");
+                let x = newX;
+                let y = newY;
+            } else {
+                // Если стена - остаемся на месте
+                let moveTuple[2] = x;
+                let moveTuple[3] = y;
+            }
+        }
+
+        return moveTuple;
+    }
+}
