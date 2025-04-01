@@ -48,7 +48,7 @@ class BFS
         return;
     }
     
-    method void run() 
+    method void run(boolean reconstruct) 
     {
         var TwoDimensionalArray map;
         var int x, y;
@@ -85,9 +85,11 @@ class BFS
                         
                         if ((x = exitX) & (y = exitY)) {
                             let found = true;
-                            //do reconstructPath(); // Восстанавливаем путь
-                            //do Output.moveCursor(0,0);
-                            //do Output.printString("Exit found!");
+                            if (reconstruct) {
+                                do reconstructPath(); // Восстанавливаем путь
+                                do Output.moveCursor(0,0);
+                                do Output.printString("Exit found!");
+                            }
                             return;
                         }
 

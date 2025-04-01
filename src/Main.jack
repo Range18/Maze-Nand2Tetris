@@ -3,10 +3,10 @@ class Main {
     {
         var Drawer drawer;
         var Maze maze;
-        //var BFS bfs;
+        var BFS bfs;
         var char key;
         var Player player;
-        var Array moveTuple;
+        var Array moveTuple;    
         
         do Output.printString("Press any key to generate maze...");
         
@@ -32,21 +32,30 @@ class Main {
         while (player.isCompleted() = false) {
             let key = Keyboard.keyPressed();
             if (~(key = 0)) {
-                let moveTuple = player.move(key, maze.getMap());
-                if (moveTuple[4] = true) {   // true - перемещение
-                    do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
+                if (key = 80) { // 'P' key
+                    // Создаем BFS и запускаем его для отображения пути
+                    let bfs = BFS.new(maze);
+                    do bfs.run(true);
+                    do drawer.drawMaze();
+                    do bfs.dispose();
+                } else {
+                    let moveTuple = player.move(key, maze.getMap());
+                    if (moveTuple[4] = true) {   // true - перемещение
+                        do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
+                    }
                 }
+                // Ждем отпускания клавиши
+                while (~(Keyboard.keyPressed() = 0)) {}
             }
-
-            do Sys.wait(100);
+            do Sys.wait(50);
         }
 
-        //let bfs = BFS.new(maze);
-        // do bfs.run();
-
-        // do bfs.dispose();
-        do maze.dispose();
+        // Показываем экран завершения в стиле GTA
+        do drawer.drawMissionPassed();
+        
+        // Освобождаем ресурсы
         do drawer.dispose();
+        do maze.dispose();
         
         return;
     }

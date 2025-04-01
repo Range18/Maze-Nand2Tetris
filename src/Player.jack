@@ -1,6 +1,7 @@
 class Player {
     field boolean isCompleted;
     field int x,y;
+    field int exitX, exitY;
     field String icon;
 
     constructor Player new(int startX, int startY, TwoDimensionalArray map) {
@@ -8,6 +9,8 @@ class Player {
         let x = startX;
         let y = startY;
         let icon = "P";
+        let exitX = 14;
+        let exitY = 13;
         do map.setStringValue(y, x, icon);
         
         return this;
@@ -79,6 +82,10 @@ class Player {
                 let y = newY;
                 // DEBUG:
                 // do Output.printString(" Move!");
+
+                if ((x = exitX) & (y = exitY)) {
+                    let isCompleted = true;
+                }
             }
         }
 

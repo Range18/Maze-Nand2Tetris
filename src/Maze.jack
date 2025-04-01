@@ -138,7 +138,7 @@ class Maze {
         var BFS bfs;
         var boolean result;
         let bfs = BFS.new(this);
-        do bfs.run();
+        do bfs.run(false);
         let result = bfs.isFound();
         do bfs.dispose();
         return result;

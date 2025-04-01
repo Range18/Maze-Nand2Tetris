@@ -837,6 +837,58 @@ class Drawer {
         do Memory.poke(memAddress +8164, 63);
         return;
     }   
+    
+    method void drawMissionPassed() {
+        // Показываем экран завершения в стиле GTA
+        do Screen.clearScreen();
+        
+        // Анимированный текст "MISSION PASSED!"
+        do Output.moveCursor(8, 27);
+        do Sys.wait(300);
+        do Output.printString("M");
+        do Sys.wait(50);
+        do Output.printString("I");
+        do Sys.wait(50);
+        do Output.printString("S");
+        do Sys.wait(50);
+        do Output.printString("S");
+        do Sys.wait(50);
+        do Output.printString("I");
+        do Sys.wait(50);
+        do Output.printString("O");
+        do Sys.wait(50);
+        do Output.printString("N");
+        do Sys.wait(200);
+        do Output.printString(" ");
+        do Sys.wait(50);
+        do Output.printString("P");
+        do Sys.wait(50);
+        do Output.printString("A");
+        do Sys.wait(50);
+        do Output.printString("S");
+        do Sys.wait(50);
+        do Output.printString("S");
+        do Sys.wait(50);
+        do Output.printString("E");
+        do Sys.wait(50);
+        do Output.printString("D");
+        do Sys.wait(50);
+        do Output.printString("!");
+        do Sys.wait(500);
+
+        // "RESPECT +" появляется сразу целиком
+        do Output.moveCursor(12, 30);
+        do Sys.wait(200);
+        do Output.printString("RESPECT +");
+        
+        // Ждем нажатия любой клавиши для выхода
+        do Output.moveCursor(16, 25);
+        do Output.printString("Press any key to exit...");
+        while(Keyboard.keyPressed() = 0) {}
+        while(~(Keyboard.keyPressed() = 0)) {}
+        
+        return;
+    }
     method void dispose() {
         do maze.dispose();
         return;
