@@ -32,7 +32,7 @@ class Main {
         while (player.isCompleted() = false) {
             let key = Keyboard.keyPressed();
             if (~(key = 0)) {
-                let moveTuple = player.move(key);
+                let moveTuple = player.move(key, maze.getMap());
                 if (moveTuple[4] = true) {   // true - перемещение
                     do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
                 }

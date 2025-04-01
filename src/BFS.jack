@@ -88,6 +88,7 @@ class BFS
                             //do reconstructPath(); // Восстанавливаем путь
                             //do Output.moveCursor(0,0);
                             //do Output.printString("Exit found!");
+                            return;
                         }
 
                         // Проверяем соседей

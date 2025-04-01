@@ -4,10 +4,10 @@ class Maze {
     static String Exit, Start, Wall, Empty;
     
     constructor Maze new(int seed) {
-        let Exit = "E";
-        let Start = "S";
-        let Wall = "W";
-        let Empty = " ";
+        let Exit = "E"; // ASCII 69
+        let Start = "S"; // ASCII 83
+        let Wall = "W"; // ASCII 87
+        let Empty = " "; // ASCII 32    
         let base = TwoDimensionalArray.new(15,15);
         let random = Random.new(seed + 137);
         return this;

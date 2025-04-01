@@ -2,15 +2,13 @@ class Player {
     field boolean isCompleted;
     field int x,y;
     field String icon;
-    field TwoDimensionalArray map;
 
     constructor Player new(int startX, int startY, TwoDimensionalArray map) {
         let isCompleted = false;
         let x = startX;
         let y = startY;
         let icon = "P";
-        let map = map;
-        do map.setCharValue(y, x, icon);
+        do map.setStringValue(y, x, icon);
         
         return this;
     }
@@ -19,7 +17,7 @@ class Player {
         return isCompleted;
     }
 
-    method Array move(int keyPressed) {
+    method Array move(int keyPressed, TwoDimensionalArray currentMap) {
         var Array moveTuple;
         var int newX, newY;
         var String cell;
@@ -49,20 +47,38 @@ class Player {
             let moveTuple[2] = x;
             let moveTuple[3] = y;
         } else {
-            let cell = map.getStringValue(newY, newX);
+            let cell = currentMap.getStringValue(newY, newX);
+             // DEBUG:
+            // do Output.moveCursor(0, 0);
+           // do Output.printString("Cell: ");
+           // do Output.printString(cell);
+           // do Output.printString(" Code: ");
+           // do Output.printInt(cell.charAt(0));
+            
             // Проверяем, не стена ли в новой позиции
-                if (~(cell.charAt(0) = 87)) { // 87 = 'W'
-                let moveTuple[4] = true; // true - перемещение
-                let moveTuple[2] = newX;
-                let moveTuple[3] = newY;
-                do map.setStringValue(newY, newX, icon);
-                do map.setStringValue(y, x, " ");
-                let x = newX;
-                let y = newY;
-            } else {
+            if (cell.charAt(0) = 87) { // 87 = 'W'
                 // Если стена - остаемся на месте
                 let moveTuple[2] = x;
                 let moveTuple[3] = y;
+                let moveTuple[4] = false;
+                // DEBUG:
+                //do Output.printString(" Wall!");
+            } else {
+                let moveTuple[4] = true; // true - перемещение
+                let moveTuple[2] = newX;
+                let moveTuple[3] = newY;
+                
+                // Сначала обновляем старую позицию
+                do currentMap.setStringValue(y, x, " ");
+                
+                // Затем обновляем новую позицию
+                do currentMap.setStringValue(newY, newX, icon);
+                
+                // И только потом обновляем координаты игрока
+                let x = newX;
+                let y = newY;
+                // DEBUG:
+                // do Output.printString(" Move!");
             }
         }
 
