@@ -7,11 +7,13 @@ class Main {
         var char seed;
         var char key;
         var Player player;
-        var Array moveTuple;    
+        var Array moveTuple;
+        var int moveCount;
+        
+        let moveCount = 0;
         
         do Output.printString("Press any key to generate maze...");
         
-        // ждем нажатия клавиши
         while(Keyboard.keyPressed() = 0) {}
         let seed = Keyboard.keyPressed();
         while(~(Keyboard.keyPressed() = 0)) {}
@@ -29,38 +31,45 @@ class Main {
         let drawer = Drawer.new(maze);
         
         do drawer.drawMaze();
+        do Output.moveCursor(22, 15);
+        do Output.printString("Score: 0"); // Инициализируем с нулем
 
         while (player.isCompleted() = false) {
             let key = Keyboard.keyPressed();
             if (~(key = 0)) {
-                if (key = 80) { // 'P' key
-                    // Создаем BFS и запускаем его для отображения пути
+                if (key = 80) {
                     let bfs = BFS.new(maze);
                     do bfs.run(true);
                     do drawer.drawMaze();
                     do bfs.dispose();
                 } else {
                     let moveTuple = player.move(key, maze.getMap());
-                    if (moveTuple[4] = true) {   // true - перемещение
+                    if (moveTuple[4] = true) {
                         do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
+                        let moveCount = moveCount + 1;
+                        // Обновляем только числовое значение
+                        do Output.moveCursor(22, 15 + 7); // 7 - длина "Score: "
+                        do Output.printInt(moveCount);
                     }
                 }
-                // Ждем отпускания клавиши
                 while (~(Keyboard.keyPressed() = 0)) {}
             }
             do Sys.wait(50);
         }
 
-        // Показываем экран завершения в стиле GTA
         do drawer.drawMissionPassed();
+        do Output.moveCursor(20, 15);
+        do Output.printString("Total moves: ");
+        do Output.printInt(moveCount);
         do Sys.wait(3000);
 
+        // Остальная часть кода без изменений
         do Screen.clearScreen();
         do Drawer.drawSideMenu(0);
         do Drawer.drawHelper();
         do Output.moveCursor(2,15);
 
-        do Output.printString("Please, wait..."); do Output.moveCursor(3,15); do Output.printString("Searching the shotest path...");
+        do Output.printString("Please, wait..."); do Output.moveCursor(3,15); do Output.printString("Searching the shortest path...");
         let maze = Maze.new(seed);
         do maze.Fill(true);
         do Output.moveCursor(2,15);
@@ -70,7 +79,6 @@ class Main {
         
         do drawer.drawMaze();
         
-        // Освобождаем ресурсы
         do drawer.dispose();
         do maze.dispose();
         
