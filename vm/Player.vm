@@ -1,0 +1,263 @@
+function Player.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push argument 0
+pop this 1
+push argument 1
+pop this 2
+push constant 1
+call String.new 1
+push constant 80
+call String.appendChar 2
+pop this 5
+push constant 14
+pop this 3
+push constant 13
+pop this 4
+push argument 2
+push this 2
+push this 1
+push this 5
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push pointer 0
+return
+function Player.isCompleted 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Player.move 4
+push argument 0
+pop pointer 0
+push constant 5
+call Array.new 1
+pop local 0
+push constant 4
+push local 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push this 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push this 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push this 1
+pop local 1
+push this 2
+pop local 2
+push argument 1
+push constant 65
+eq
+push argument 1
+push constant 97
+eq
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+push constant 1
+sub
+pop local 1
+label IF_FALSE0
+push argument 1
+push constant 68
+eq
+push argument 1
+push constant 100
+eq
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 1
+push constant 1
+add
+pop local 1
+label IF_FALSE1
+push argument 1
+push constant 87
+eq
+push argument 1
+push constant 119
+eq
+or
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 2
+push constant 1
+sub
+pop local 2
+label IF_FALSE2
+push argument 1
+push constant 83
+eq
+push argument 1
+push constant 115
+eq
+or
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 2
+push constant 1
+add
+pop local 2
+label IF_FALSE3
+push local 1
+push constant 0
+lt
+push local 1
+push constant 14
+gt
+or
+push local 2
+push constant 0
+lt
+or
+push local 2
+push constant 14
+gt
+or
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push constant 2
+push local 0
+add
+push this 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push this 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto IF_END4
+label IF_FALSE4
+push argument 2
+push local 2
+push local 1
+call TwoDimensionalArray.getStringValue 3
+pop local 3
+push local 3
+push constant 0
+call String.charAt 2
+push constant 87
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 2
+push local 0
+add
+push this 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push this 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 0
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto IF_END5
+label IF_FALSE5
+push constant 4
+push local 0
+add
+push constant 0
+not
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push argument 2
+push this 2
+push this 1
+push constant 1
+call String.new 1
+push constant 32
+call String.appendChar 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push argument 2
+push local 2
+push local 1
+push this 5
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 1
+pop this 1
+push local 2
+pop this 2
+push this 1
+push this 3
+eq
+push this 2
+push this 4
+eq
+and
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push constant 0
+not
+pop this 0
+label IF_FALSE6
+label IF_END5
+label IF_END4
+push local 0
+return

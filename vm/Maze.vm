@@ -1,0 +1,1009 @@
+function Maze.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 1
+call String.new 1
+push constant 69
+call String.appendChar 2
+pop static 0
+push constant 1
+call String.new 1
+push constant 83
+call String.appendChar 2
+pop static 1
+push constant 1
+call String.new 1
+push constant 87
+call String.appendChar 2
+pop static 2
+push constant 1
+call String.new 1
+push constant 32
+call String.appendChar 2
+pop static 3
+push constant 15
+push constant 15
+call TwoDimensionalArray.new 2
+pop this 0
+push argument 0
+push constant 137
+add
+call Random.new 1
+pop this 1
+push pointer 0
+return
+function Maze.Fill 4
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+push constant 0
+pop local 3
+label WHILE_EXP0
+push local 3
+not
+push local 2
+push constant 100
+lt
+and
+not
+if-goto WHILE_END0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push constant 15
+lt
+not
+if-goto WHILE_END1
+push constant 0
+pop local 1
+label WHILE_EXP2
+push local 1
+push constant 15
+lt
+not
+if-goto WHILE_END2
+push this 0
+push local 0
+push local 1
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+pop local 0
+label WHILE_EXP3
+push local 0
+push constant 15
+lt
+not
+if-goto WHILE_END3
+push this 0
+push constant 0
+push local 0
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push constant 14
+push local 0
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 0
+push constant 0
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 0
+push constant 14
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP3
+label WHILE_END3
+push this 0
+push constant 1
+push constant 0
+push static 1
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push constant 13
+push constant 14
+push static 0
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push pointer 0
+push constant 1
+push constant 1
+push constant 13
+push constant 13
+call Maze.generateMaze 5
+pop temp 0
+push this 0
+push constant 1
+push constant 1
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push constant 13
+push constant 13
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push pointer 0
+push argument 1
+call Maze.checkSolvability 2
+pop local 3
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push local 3
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Maze.createSimplePath 1
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Maze.generateMaze 5
+push argument 0
+pop pointer 0
+push argument 3
+push argument 1
+sub
+push constant 1
+add
+pop local 0
+push argument 4
+push argument 2
+sub
+push constant 1
+add
+pop local 1
+push local 0
+push constant 2
+lt
+push local 1
+push constant 2
+lt
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push local 0
+push local 1
+gt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 1
+push local 0
+push constant 2
+call Math.divide 2
+add
+pop local 2
+push argument 2
+pop local 3
+label WHILE_EXP0
+push local 3
+push argument 4
+push constant 1
+add
+lt
+not
+if-goto WHILE_END0
+push this 0
+push local 3
+push local 2
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 3
+push constant 1
+add
+pop local 3
+goto WHILE_EXP0
+label WHILE_END0
+push argument 2
+push this 1
+push local 1
+call Random.next 2
+add
+pop local 4
+push this 0
+push local 4
+push local 2
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push pointer 0
+push argument 1
+push argument 2
+push local 2
+push constant 1
+sub
+push argument 4
+call Maze.generateMaze 5
+pop temp 0
+push pointer 0
+push local 2
+push constant 1
+add
+push argument 2
+push argument 3
+push argument 4
+call Maze.generateMaze 5
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push argument 2
+push local 1
+push constant 2
+call Math.divide 2
+add
+pop local 3
+push argument 1
+pop local 2
+label WHILE_EXP1
+push local 2
+push argument 3
+push constant 1
+add
+lt
+not
+if-goto WHILE_END1
+push this 0
+push local 3
+push local 2
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP1
+label WHILE_END1
+push argument 1
+push this 1
+push local 0
+call Random.next 2
+add
+pop local 4
+push this 0
+push local 3
+push local 4
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push pointer 0
+push argument 1
+push argument 2
+push argument 3
+push local 3
+push constant 1
+sub
+call Maze.generateMaze 5
+pop temp 0
+push pointer 0
+push argument 1
+push local 3
+push constant 1
+add
+push argument 3
+push argument 4
+call Maze.generateMaze 5
+pop temp 0
+label IF_END1
+push constant 0
+return
+function Maze.shuffleArray 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push this 1
+push constant 4
+call Random.next 2
+pop local 1
+push local 0
+push argument 1
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 0
+push argument 1
+add
+push local 1
+push argument 1
+add
+pop pointer 1
+push that 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push argument 1
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Maze.isValidPosition 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+lt
+push argument 1
+push constant 14
+gt
+or
+push argument 2
+push constant 0
+lt
+or
+push argument 2
+push constant 14
+gt
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push this 0
+push argument 2
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+return
+function Maze.checkSolvability 2
+push argument 0
+pop pointer 0
+push pointer 0
+call BFS.new 1
+pop local 0
+push local 0
+push argument 1
+call BFS.run 2
+pop temp 0
+push local 0
+call BFS.isFound 1
+pop local 1
+push local 0
+call BFS.dispose 1
+pop temp 0
+push local 1
+return
+function Maze.Print 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 15
+lt
+not
+if-goto WHILE_END0
+push constant 0
+pop local 1
+label WHILE_EXP1
+push local 1
+push constant 15
+lt
+not
+if-goto WHILE_END1
+push this 0
+push local 0
+push local 1
+call TwoDimensionalArray.getStringValue 3
+call Output.printString 1
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+call Output.println 0
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Maze.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call TwoDimensionalArray.dispose 1
+pop temp 0
+push constant 0
+return
+function Maze.getMap 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Maze.IsValid 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 1
+neg
+gt
+push argument 1
+push constant 15
+lt
+and
+push argument 2
+push constant 1
+neg
+gt
+and
+push argument 2
+push constant 15
+lt
+and
+return
+function Maze.createSimplePath 4
+push argument 0
+pop pointer 0
+push constant 1
+pop local 2
+label WHILE_EXP0
+push local 2
+push constant 14
+lt
+not
+if-goto WHILE_END0
+push constant 1
+pop local 3
+label WHILE_EXP1
+push local 3
+push constant 14
+lt
+not
+if-goto WHILE_END1
+push this 0
+push local 2
+push local 3
+push static 2
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 3
+push constant 1
+add
+pop local 3
+goto WHILE_EXP1
+label WHILE_END1
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push constant 1
+pop local 0
+push constant 1
+pop local 1
+push this 0
+push local 1
+push local 0
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label WHILE_EXP2
+push local 0
+push constant 13
+lt
+push local 1
+push constant 13
+lt
+or
+not
+if-goto WHILE_END2
+push this 1
+push constant 2
+call Random.next 2
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push constant 13
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 1
+add
+pop local 0
+push this 0
+push local 1
+push local 0
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 1
+push constant 1
+gt
+push this 1
+push constant 2
+call Random.next 2
+push constant 0
+eq
+and
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push local 1
+push constant 1
+sub
+push local 0
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 1
+push constant 1
+sub
+push local 0
+push constant 1
+sub
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+goto IF_END2
+label IF_FALSE2
+push local 1
+push constant 13
+lt
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 0
+push local 1
+push constant 1
+add
+push local 0
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 1
+push constant 1
+add
+push local 0
+push constant 1
+sub
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE3
+label IF_END2
+label IF_FALSE1
+goto IF_END0
+label IF_FALSE0
+push local 1
+push constant 13
+lt
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 1
+push constant 1
+add
+pop local 1
+push this 0
+push local 1
+push local 0
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push local 0
+push constant 1
+gt
+push this 1
+push constant 2
+call Random.next 2
+push constant 0
+eq
+and
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 0
+push local 1
+push local 0
+push constant 1
+sub
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 1
+push constant 1
+sub
+push local 0
+push constant 1
+sub
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+goto IF_END5
+label IF_FALSE5
+push local 0
+push constant 13
+lt
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 0
+push local 1
+push local 0
+push constant 1
+add
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 0
+push local 1
+push constant 1
+sub
+push local 0
+push constant 1
+add
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE6
+label IF_END5
+label IF_FALSE4
+label IF_END0
+goto WHILE_EXP2
+label WHILE_END2
+push constant 0
+pop local 2
+label WHILE_EXP3
+push local 2
+push constant 10
+lt
+not
+if-goto WHILE_END3
+push constant 1
+push this 1
+push constant 12
+call Random.next 2
+add
+pop local 0
+push constant 1
+push this 1
+push constant 12
+call Random.next 2
+add
+pop local 1
+push pointer 0
+push local 0
+push local 1
+call Maze.canCreateConnection 3
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push pointer 0
+push local 0
+push local 1
+call Maze.createConnection 3
+pop temp 0
+label IF_FALSE7
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP3
+label WHILE_END3
+push constant 0
+return
+function Maze.canCreateConnection 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push this 0
+push argument 2
+push constant 1
+sub
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 3
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+push constant 1
+add
+pop local 0
+label IF_FALSE0
+push this 0
+push argument 2
+push constant 1
+add
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 3
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 1
+add
+pop local 0
+label IF_FALSE1
+push this 0
+push argument 2
+push argument 1
+push constant 1
+sub
+call TwoDimensionalArray.getStringValue 3
+push static 3
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 0
+push constant 1
+add
+pop local 0
+label IF_FALSE2
+push this 0
+push argument 2
+push argument 1
+push constant 1
+add
+call TwoDimensionalArray.getStringValue 3
+push static 3
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 0
+push constant 1
+add
+pop local 0
+label IF_FALSE3
+push this 0
+push argument 2
+push constant 1
+sub
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE4
+push this 0
+push argument 2
+push constant 1
+add
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE5
+push this 0
+push argument 2
+push argument 1
+push constant 1
+sub
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE6
+push this 0
+push argument 2
+push argument 1
+push constant 1
+add
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push local 1
+push constant 1
+add
+pop local 1
+label IF_FALSE7
+push local 0
+push constant 1
+gt
+push local 1
+push constant 1
+gt
+and
+return
+function Maze.createConnection 0
+push argument 0
+pop pointer 0
+push this 0
+push argument 2
+push argument 1
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+push this 1
+push constant 2
+call Random.next 2
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push argument 2
+push constant 1
+sub
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 0
+push argument 2
+push constant 1
+sub
+push argument 1
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE1
+push this 0
+push argument 2
+push constant 1
+add
+push argument 1
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push argument 2
+push constant 1
+add
+push argument 1
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE2
+goto IF_END0
+label IF_FALSE0
+push this 0
+push argument 2
+push argument 1
+push constant 1
+sub
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 0
+push argument 2
+push argument 1
+push constant 1
+sub
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE3
+push this 0
+push argument 2
+push argument 1
+push constant 1
+add
+call TwoDimensionalArray.getStringValue 3
+push static 2
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 0
+push argument 2
+push argument 1
+push constant 1
+add
+push static 3
+call TwoDimensionalArray.setStringValue 4
+pop temp 0
+label IF_FALSE4
+label IF_END0
+push constant 0
+return
