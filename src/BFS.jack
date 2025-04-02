@@ -7,7 +7,6 @@ class BFS
     field TwoDimensionalArray parentY; // y-координата родителя
     field int startX, startY, exitX, exitY;
     field boolean found;
-    field char Empty, Exit, Start, Wall;
 
     constructor BFS new(Maze m) 
     {
@@ -21,10 +20,6 @@ class BFS
         let parentX = TwoDimensionalArray.new(15, 15);
         let parentY = TwoDimensionalArray.new(15, 15);
         let found = false;
-        let Empty = " ";    // ASCII 32
-        let Exit = "E";     // ASCII 69
-        let Start = "S";    // ASCII 83
-        let Wall = "W";     // ASCII 87
         return this;
     }
     

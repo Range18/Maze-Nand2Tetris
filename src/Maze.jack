@@ -13,7 +13,7 @@ class Maze {
         return this;
     }
 
-    method void Fill() {
+    method void Fill(boolean withPath) {
         var int i, j, attempts;
         var boolean isSolvable;
         
@@ -51,7 +51,7 @@ class Maze {
             do base.setStringValue(13, 13, Empty);
             
             // Проверяем решаемость
-            let isSolvable = checkSolvability();
+            let isSolvable = checkSolvability(withPath);
             let attempts = attempts + 1;
         }
         
@@ -134,11 +134,11 @@ class Maze {
         return base.getStringValue(y, x) = Wall;
     }
 
-    method boolean checkSolvability() {
+    method boolean checkSolvability(boolean withPath) {
         var BFS bfs;
         var boolean result;
         let bfs = BFS.new(this);
-        do bfs.run(false);
+        do bfs.run(withPath);
         let result = bfs.isFound();
         do bfs.dispose();
         return result;

@@ -68,12 +68,12 @@ class Drawer {
         do Output.moveCursor(22, 15);
         do Output.printString("Score: ");
         do Output.printInt(0);
-        do Output.moveCursor(20, 46);
+        do Output.moveCursor(22, 46);
         do Output.printString("Press WASD to move");
-        do Output.moveCursor(21, 35);
-        do Output.printString("Press P to show shortest path");
-        do Output.moveCursor(22, 37);
-        do Output.printString("Press SPACE to restart game");
+        // do Output.moveCursor(21, 35);
+        // do Output.printString("Press P to show shortest path");
+        // do Output.moveCursor(22, 37);
+        // do Output.printString("Press SPACE to restart game");
         return;
     }
     function void drawSideMenu(int location) {
@@ -883,9 +883,7 @@ class Drawer {
         
         // Ждем нажатия любой клавиши для выхода
         do Output.moveCursor(16, 25);
-        do Output.printString("Press any key to exit...");
-        while(Keyboard.keyPressed() = 0) {}
-        while(~(Keyboard.keyPressed() = 0)) {}
+
         
         return;
     }
