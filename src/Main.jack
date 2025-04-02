@@ -37,20 +37,13 @@ class Main {
         while (player.isCompleted() = false) {
             let key = Keyboard.keyPressed();
             if (~(key = 0)) {
-                if (key = 80) {
-                    let bfs = BFS.new(maze);
-                    do bfs.run(true);
-                    do drawer.drawMaze();
-                    do bfs.dispose();
-                } else {
-                    let moveTuple = player.move(key, maze.getMap());
-                    if (moveTuple[4] = true) {
-                        do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
-                        let moveCount = moveCount + 1;
-                        // Обновляем только числовое значение
-                        do Output.moveCursor(22, 15 + 7); // 7 - длина "Score: "
-                        do Output.printInt(moveCount);
-                    }
+                let moveTuple = player.move(key, maze.getMap());
+                if (moveTuple[4] = true) {
+                    do drawer.DrawPlayer(moveTuple[0], moveTuple[1], moveTuple[2], moveTuple[3]);
+                    let moveCount = moveCount + 1;
+                    // Обновляем только числовое значение
+                    do Output.moveCursor(22, 15 + 7); // 7 - длина "Score: "
+                    do Output.printInt(moveCount);
                 }
                 while (~(Keyboard.keyPressed() = 0)) {}
             }
