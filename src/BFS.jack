@@ -61,24 +61,11 @@ class BFS
             
             if (maze.IsValid(y, x)) {
                 let temp = map.getStringValue(y, x);
-                
-                // DEBUG: Вывод текущей позиции и значения
-                // do Output.printString("Checking position: ");
-                // do Output.printInt(y);
-                // do Output.printString(",");
-                // do Output.printInt(x);
-                // do Output.printString(" Value: ");
-                // do Output.printString(temp);
-                // do Output.println();
 
                 if (visited.getIntValue(y, x) = 0) {
                     // Проверяем тип клетки: пробел (32), выход (69) или старт (83)
                     if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69) | (temp.charAt(0) = 83)) {
                         do visited.setIntValue(y, x, 1);
-
-                        // DEBUG: Вывод работы BFS
-                        // do map.setStringValue(y, x, ".");
-                        
                         
                         if ((x = exitX) & (y = exitY)) {
                             let found = true;
@@ -94,10 +81,6 @@ class BFS
                         // Вверх
                         if (maze.IsValid(y - 1, x)) {
                             let temp = map.getStringValue(y - 1, x);
-                            // DEBUG: Проверка верхней клетки
-                            // do Output.printString("Checking up: ");
-                            // do Output.printString(temp);
-                            // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y - 1, x) = 0) {
                                     do parentX.setIntValue(y - 1, x, x); // Сохраняем родителя
@@ -111,10 +94,6 @@ class BFS
                         // Вниз
                         if (maze.IsValid(y + 1, x)) {
                             let temp = map.getStringValue(y + 1, x);
-                            // DEBUG: Проверка нижней клетки
-                            // do Output.printString("Checking down: ");
-                            // do Output.printString(temp);
-                            // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y + 1, x) = 0) {
                                     do parentX.setIntValue(y + 1, x, x); // Сохраняем родителя
@@ -128,10 +107,6 @@ class BFS
                         // Влево
                         if (maze.IsValid(y, x - 1)) {
                             let temp = map.getStringValue(y, x - 1);
-                            // DEBUG: Проверка левой клетки
-                            // do Output.printString("Checking left: ");
-                            // do Output.printString(temp);
-                            // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y, x - 1) = 0) {
                                     do parentX.setIntValue(y, x - 1, x); // Сохраняем родителя
@@ -145,10 +120,6 @@ class BFS
                         // Вправо
                         if (maze.IsValid(y, x + 1)) {
                             let temp = map.getStringValue(y, x + 1);
-                            // DEBUG: Проверка правой клетки
-                            // do Output.printString("Checking right: ");
-                            // do Output.printString(temp);
-                            // do Output.println();
                             if ((temp.charAt(0) = 32) | (temp.charAt(0) = 69)) {
                                 if (visited.getIntValue(y, x + 1) = 0) {
                                     do parentX.setIntValue(y, x + 1, x); // Сохраняем родителя
