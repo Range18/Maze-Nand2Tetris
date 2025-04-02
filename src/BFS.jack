@@ -7,6 +7,7 @@ class BFS
     field TwoDimensionalArray parentY; // y-координата родителя
     field int startX, startY, exitX, exitY;
     field boolean found;
+    field int pathLength;
 
     constructor BFS new(Maze m) 
     {
@@ -20,6 +21,7 @@ class BFS
         let parentX = TwoDimensionalArray.new(15, 15);
         let parentY = TwoDimensionalArray.new(15, 15);
         let found = false;
+        let pathLength = 0;
         return this;
     }
     
@@ -176,33 +178,45 @@ class BFS
         var String star;
         var int currentX, currentY, prevX, prevY;
         let drawer = Drawer.new(maze);
-        let map = maze.getMap(); // Получаем карту в отдельную переменную
+        let map = maze.getMap();
         let star = String.new(1);
-        do star.appendChar(42); // Создаем строку "*"
+        do star.appendChar(42);
         
         let currentX = exitX;
         let currentY = exitY;
+        let pathLength = 0; // Сбрасываем счетчик длины
         
         while (~((currentX = startX) & (currentY = startY))) {
-            // Используем переменную map вместо цепочки вызовов
             do map.setStringValue(currentY, currentX, star);
+            let pathLength = pathLength + 1; // Увеличиваем счетчик
             
             // Анимация
             do Output.moveCursor(0, 0);
             do drawer.drawMaze();
             do Sys.wait(20);
             
-            // Получаем родителя
+            // Обновляем счетчик на экране
+            do Output.moveCursor(22, 15);
+            do Output.printString("Score: ");
+            do Output.printInt(pathLength);
+            
             let prevX = parentX.getIntValue(currentY, currentX);
             let prevY = parentY.getIntValue(currentY, currentX);
             
-            // Переходим к предыдущей клетке
             let currentX = prevX;
             let currentY = prevY;
         }
         
         do map.setStringValue(startY, startX, "S");
+        let pathLength = pathLength + 1; // Учитываем стартовую позицию
+        do Output.moveCursor(22, 15);
+        do Output.printString("Score: ");
+        do Output.printInt(pathLength - 1);
         return;
+    }
+
+    method int getPathLength() {
+        return pathLength;
     }
 
     method boolean isFound() {
