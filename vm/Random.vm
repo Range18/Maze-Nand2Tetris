@@ -8,14 +8,6 @@ push constant 1
 pop this 1
 push pointer 0
 return
-function Random.dispose 0
-push argument 0
-pop pointer 0
-push pointer 0
-call Memory.deAlloc 1
-pop temp 0
-push constant 0
-return
 function Random.moveNext 1
 push argument 0
 pop pointer 0
@@ -23,8 +15,8 @@ push pointer 0
 push this 1
 push this 0
 add
-push constant 16384
-call Random.modulo 3
+push constant 1638
+call Random.mod 3
 pop local 0
 push this 1
 pop this 0
@@ -41,9 +33,9 @@ pop temp 0
 push pointer 0
 push this 1
 push argument 1
-call Random.modulo 3
+call Random.mod 3
 return
-function Random.modulo 0
+function Random.mod 0
 push argument 0
 pop pointer 0
 label WHILE_EXP0
@@ -75,4 +67,12 @@ pop argument 1
 goto WHILE_EXP1
 label WHILE_END1
 push argument 1
+return
+function Random.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
 return

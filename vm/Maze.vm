@@ -44,7 +44,7 @@ label WHILE_EXP0
 push local 3
 not
 push local 2
-push constant 100
+push constant 21
 lt
 and
 not
