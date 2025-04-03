@@ -25,10 +25,10 @@ class Drawer {
                 if (cell.charAt(0) = 87) {  // 87 - W - стена (Wall)
                     do Screen.setColor(true);
                     do Screen.drawRectangle(
-                        (startX + (10 * j)),           // x1 - левый верхний угол
-                        (startY + (10 * i)),           // y1 - левый верхний угол
-                        (startX + (10 * j) + size),       // x2 - правый нижний угол
-                        (startY + (10 * i) + size)        // y2 - правый нижний угол
+                        (startX + (10 * j)),          
+                        (startY + (10 * i)),           
+                        (startX + (10 * j) + size),       
+                        (startY + (10 * i) + size)       
                     );
                 }
                 if (cell.charAt(0) = 42) {  // 42 - * - путь (Path)
@@ -70,10 +70,6 @@ class Drawer {
         do Output.printInt(0);
         do Output.moveCursor(22, 46);
         do Output.printString("Press WASD to move");
-        // do Output.moveCursor(21, 35);
-        // do Output.printString("Press P to show shortest path");
-        // do Output.moveCursor(22, 37);
-        // do Output.printString("Press SPACE to restart game");
         return;
     }
     function void drawSideMenu(int location) {
@@ -839,7 +835,6 @@ class Drawer {
     }   
     
     method void drawMissionPassed() {
-        // Показываем экран завершения в стиле GTA
         do Screen.clearScreen();
         
         // Анимированный текст "MISSION PASSED!"
@@ -876,7 +871,6 @@ class Drawer {
         do Output.printString("!");
         do Sys.wait(500);
 
-        // "RESPECT +" появляется сразу целиком
         do Output.moveCursor(12, 30);
         do Sys.wait(200);
         do Output.printString("RESPECT +");
