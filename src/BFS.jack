@@ -1,5 +1,4 @@
-class BFS 
-{
+class BFS {
     field Maze maze;
     field Queue queue;
     field TwoDimensionalArray visited;
@@ -9,8 +8,7 @@ class BFS
     field boolean found;
     field int pathLength;
 
-    constructor BFS new(Maze m) 
-    {
+    constructor BFS new(Maze m) {
         let startX = 0;
         let startY = 1;
         let exitX = 14;
@@ -25,16 +23,13 @@ class BFS
         return this;
     }
     
-    method void initialize() 
-    {
+    method void initialize() {
         var TwoDimensionalArray map;
         var int i, j;
         let i = 0;
-        while (i < 15) 
-        {
+        while (i < 15) {
             let j = 0;
-            while (j < 15) 
-            {
+            while (j < 15) {
                 do visited.setIntValue(i, j, 0); // 0 = не посещено
                 do parentX.setIntValue(i, j, -1); // -1 = нет родителя
                 do parentY.setIntValue(i, j, -1);
@@ -45,17 +40,15 @@ class BFS
         return;
     }
     
-    method void run(boolean reconstruct) 
-    {
+    method void run(boolean reconstruct) {
         var TwoDimensionalArray map;
         var int x, y;
-        var String temp;  // Меняем обратно на String
+        var String temp;  
         do initialize();
         do queue.enqueue(startY);
         do queue.enqueue(startX);
         let map = maze.getMap();
-        while (~(queue.isEmpty()))
-        {
+        while (~(queue.isEmpty())) {
             let y = queue.dequeue();
             let x = queue.dequeue();
             
@@ -71,8 +64,6 @@ class BFS
                             let found = true;
                             if (reconstruct) {
                                 do reconstructPath(); // Восстанавливаем путь
-                                do Output.moveCursor(0,0);
-                                do Output.printString("Exit found!");
                             }
                             return;
                         }
@@ -136,8 +127,7 @@ class BFS
         return;
     }
     
-    method void dispose() 
-    {
+    method void dispose() {
         do queue.dispose();
         do visited.dispose();
         return;
