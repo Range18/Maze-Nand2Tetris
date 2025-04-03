@@ -1,31 +1,26 @@
 class Random {
-  field int fib_previous, fib_current;
+  field int previous, current;
 
   constructor Random new(int seed) {
-    let fib_previous = seed;
-    let fib_current = 1;
+    let previous = seed;
+    let current = 1;
     return this;
   } 
 
-  method void dispose() {
-    do Memory.deAlloc(this);
-    return;
-  }
-
   method void moveNext() {
-    var int tmp;
-    let tmp = modulo(fib_current + fib_previous, 16384);
-    let fib_previous = fib_current;
-    let fib_current = tmp;
+    var int temp;
+    let temp = mod(current + previous, 1638);
+    let previous = current;
+    let current = temp;
     return;
   }
 
   method int next(int upperBound) {
     do moveNext();
-    return modulo(fib_current, upperBound);
+    return mod(current, upperBound);
   }
 
-  method int modulo(int number, int mod) {
+  method int mod(int number, int mod) {
     while((number > mod) | (number = mod)){
       let number = number - mod;
     }
@@ -33,5 +28,10 @@ class Random {
       let number = number + mod;
     }
     return number;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
   }
 }
