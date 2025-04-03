@@ -44,9 +44,8 @@ class Player {
             let newY = y + 1;
         }
 
-        // Сначала проверяем границы карты (0-14 для 15x15 карты)
+
         if ((newX < 0) | (newX > 14) | (newY < 0) | (newY > 14)) {
-            // Если выход за границы - остаемся на месте
             let moveTuple[2] = x;
             let moveTuple[3] = y;
         } else {
@@ -58,30 +57,23 @@ class Player {
            // do Output.printString(" Code: ");
            // do Output.printInt(cell.charAt(0));
             
-            // Проверяем, не стена ли в новой позиции
             if (cell.charAt(0) = 87) { // 87 = 'W'
                 // Если стена - остаемся на месте
                 let moveTuple[2] = x;
                 let moveTuple[3] = y;
                 let moveTuple[4] = false;
-                // DEBUG:
-                //do Output.printString(" Wall!");
+
             } else {
                 let moveTuple[4] = true; // true - перемещение
                 let moveTuple[2] = newX;
                 let moveTuple[3] = newY;
                 
-                // Сначала обновляем старую позицию
                 do currentMap.setStringValue(y, x, " ");
-                
-                // Затем обновляем новую позицию
                 do currentMap.setStringValue(newY, newX, icon);
                 
-                // И только потом обновляем координаты игрока
                 let x = newX;
                 let y = newY;
-                // DEBUG:
-                // do Output.printString(" Move!");
+
 
                 if ((x = exitX) & (y = exitY)) {
                     let isCompleted = true;
